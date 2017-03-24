@@ -1,5 +1,6 @@
 # XData
 
+![[Build](https://travis-ci.org/gaojiuli/xdata)](https://travis-ci.org/gaojiuli/xdata.svg?branch=master)
 ![[License](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/l/xdata.svg)
 ![[Pypi](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/v/xdata.svg)
 ![[Python](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/pyversions/xdata.svg)
