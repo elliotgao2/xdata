@@ -5,8 +5,8 @@ import xdata
 setup(
     name=xdata.__name__,
     version=xdata.__version__,
-    author="gaojiuli",
-    author_email="gaojiuli@gmail.com",
+    author=xdata.__author__,
+    author_email=xdata.__email__,
     description="Simple data validation library",
     license="MIT",
     keywords="schema json validation",

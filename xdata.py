@@ -3,13 +3,15 @@ from datetime import datetime
 
 __name__ = 'xdata'
 __version__ = '0.0.1'
+__author__ = 'gaojiuli'
+__email__ = 'gaojiuli@gmail.com'
 
 
 class DataType:
     def __init__(self, *args, **kwargs):
         self.required = kwargs.get('required', False)
         self.default = kwargs.get('default', None)
-        self.choices = kwargs.get('choices', [])
+        self.choices = kwargs.get('choices', None)
         self.fn = kwargs.get('fn', None)
         self.value = None
         self.name = None
@@ -24,7 +26,7 @@ class DataType:
         if self.choices is not None and self.value not in self.choices:
             return '{} should be in [{}]'.format(self.name, ','.join(self.choices))
 
-        if self.fn is not None and not self.fn(self.value):
+        if self.fn is not None and self.value is not None and not self.fn(self.value):
             return '{} should be satisfied function {}'.format(self.name, self.fn)
 
 
@@ -32,15 +34,17 @@ class Str(DataType):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.max_length = kwargs.get('max_length', None)
-        self.min_length = kwargs.get('max_length', None)
+        self.min_length = kwargs.get('min_length', None)
         self.length = kwargs.get('length', None)
         self.regex = kwargs.get('regex', None)
 
     def check(self):
-        super().check()
+        result = super().check()
+        if result is not None:
+            return result
 
         if not isinstance(self.value, str):
-            return 'type of {} should string'.format(self.name)
+            return 'type of {} should be string'.format(self.name)
 
         if self.min_length is not None and len(self.value) < self.min_length:
             return 'length of {} should be larger than {}'.format(self.name, self.min_length)
@@ -49,7 +53,7 @@ class Str(DataType):
             return 'length of {} should be less than {}'.format(self.name, self.max_length)
 
         if self.length is not None and len(self.value) != self.length:
-            return 'length of {} should be equal to {}'.format(self.name, self.max_length)
+            return 'length of {} should be equal to {}'.format(self.name, self.length)
 
         if self.regex is not None and re.compile(self.regex).match(self.value):
             return '{} should match with regex "{}"'.format(self.name, self.regex)
@@ -62,7 +66,9 @@ class Int(DataType):
         self.min = kwargs.get('min', None)
 
     def check(self):
-        super().check()
+        result = super().check()
+        if result is not None:
+            return result
 
         if not isinstance(self.value, int):
             return 'type of {} should be integer'.format(self.name)
@@ -91,7 +97,9 @@ class Decimal(DataType):
         self.right = kwargs.get('right', 2)
 
     def check(self):
-        super().check()
+        result = super().check()
+        if result is not None:
+            return result
         if not isinstance(self.value, float):
             return 'type of {} should be decimal'.format(self.name)
 
@@ -99,7 +107,7 @@ class Decimal(DataType):
 
         if len(point_left) > self.left:
             return 'length of the right of the decimal point should be less than {}'.format(self.left)
-        if len(point_right) == self.right:
+        if not len(point_right) == self.right:
             return 'length of the left of the decimal point should be equal to {}'.format(self.right)
 
 
@@ -113,11 +121,13 @@ class DateTime(DataType):
         self.min_datetime = datetime.strptime(self.min_datetime, "%Y-%m-%d %H:%M:%S")
 
     def check(self):
-        super().check()
+        result = super().check()
+        if result is not None:
+            return result
 
         try:
             self.value = datetime.strptime(self.value, "%Y-%m-%d %H:%M:%S")
-        except ValueError:
+        except (ValueError, TypeError):
             return '{} should be right datetime'.format(self.name)
 
         if self.value > self.max_datetime:
@@ -136,11 +146,13 @@ class Date(DataType):
         self.min_date = datetime.strptime(self.min_date, "%Y-%m-%d")
 
     def check(self):
-        super().check()
+        result = super().check()
+        if result is not None:
+            return result
 
         try:
             self.value = datetime.strptime(self.value, "%Y-%m-%d")
-        except ValueError:
+        except (ValueError, TypeError):
             return '{} should be right date'.format(self.name)
 
         if self.value > self.max_date:
@@ -159,11 +171,13 @@ class Time(DataType):
         self.min_time = datetime.strptime(self.min_time, "%H:%M:%S")
 
     def check(self):
-        super().check()
+        result = super().check()
+        if result is not None:
+            return result
 
         try:
             self.value = datetime.strptime(self.value, "%H:%M:%S")
-        except ValueError:
+        except (ValueError, TypeError):
             return '{} should be right time'.format(self.name)
         if self.value > self.max_time:
             return '{} should be before {}'.format(self.name, self.max_time)
@@ -178,7 +192,7 @@ class CheckException(Exception):
 class SchemaMeta(type):
     def __new__(mcs, name, bases, attrs):
         checkers = {}
-        for k, v in attrs.items:
+        for k, v in attrs.items():
             if isinstance(v, DataType):
                 checkers[k] = v
 
@@ -190,38 +204,43 @@ class SchemaMeta(type):
 
 
 class Schema(metaclass=SchemaMeta):
-    def __init__(self):
-        self._data = {}
+    def __init__(self, data):
+        self.data = data
         self._validated_data = {}
         self._errors = {}
         self._checked = False
+        self.valid = True
 
-    def validate(self, data):
-        self._data = data
+    def validate(self):
+        for k, v in self.checkers.items():
+            self.checkers[k].name = k
+            if k in self.data:
+                self.checkers[k].value = self.data[k]
 
-        for k, v in self._data.items():
-            if k in self.checkers:
-                setattr(self.checkers[k], 'value', v)
-
-        for k, checker in self.checkers:
+        for k, checker in self.checkers.items():
             result = checker.check()
             if result is None:
-                setattr(self._validated_data, k, self.checkers[k].value)
+                self._validated_data[k] = self.checkers[k].value
             else:
-                setattr(self._errors, k, result)
+                self.valid = False
+                self._errors[k] = result
+        self._checked = True
+        return self
 
     @property
     def errors(self):
         if not self._checked:
-            raise CheckException('data should be validate before visit errors')
+            raise CheckException('data should be validated before visit errors')
+
+        if self.valid:
+            raise CheckException('data is valid')
+
         return self._errors
 
     @property
     def validated_data(self):
         if not self._checked:
             raise CheckException('data should be validate before visit validated_data')
+        if not self.valid:
+            raise CheckException('data is not valid')
         return self._validated_data
-
-    @property
-    def data(self):
-        return self._data
