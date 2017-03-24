@@ -6,7 +6,6 @@
 ![[Python](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/pyversions/xdata.svg)
 
 A simple but useful library for validating data.
-Most of the situation is validating request data.
 
 ## Features
 
