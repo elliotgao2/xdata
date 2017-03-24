@@ -223,25 +223,26 @@ class Schema(metaclass=SchemaMeta):
             if result is None:
                 self._validated_data[k] = self.checkers[k].value
             else:
-                self.valid = False
                 self._errors[k] = result
+        if len(self._errors) != 0:
+            self.valid = False
         self._checked = True
         return self
 
     @property
     def errors(self):
         if not self._checked:
-            raise CheckException('data should be validated before visit errors')
+            raise CheckException('Data should be validated before visit errors')
 
         if self.valid:
-            raise CheckException('data is valid')
+            raise CheckException('Data is valid')
 
         return self._errors
 
     @property
     def validated_data(self):
         if not self._checked:
-            raise CheckException('data should be validate before visit validated_data')
+            raise CheckException('Data should be validate before visit validated_data')
         if not self.valid:
-            raise CheckException('data is not valid')
+            raise CheckException('Data is not valid')
         return self._validated_data
