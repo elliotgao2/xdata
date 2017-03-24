@@ -85,7 +85,7 @@ Time(max_time='06:00:00', min_time='05:00:00')
 
 ## Todos
 
-1. More DateTypes
+1. More DataTypes
 2. More Check rules
 
 ## License
