@@ -210,6 +210,7 @@ class Schema(metaclass=SchemaMeta):
         self._errors = {}
         self._checked = False
         self.valid = True
+        self.validate()
 
     def validate(self):
         for k, v in self.checkers.items():
