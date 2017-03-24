@@ -24,7 +24,7 @@ Most of the situation is validating request data.
 
 ## Usage
 
-### Validated_data
+### ValidatedData
 
 ```python
 from xdata import *
