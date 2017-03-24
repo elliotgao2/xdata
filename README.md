@@ -1,5 +1,9 @@
 # XData
 
+![[License](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/l/xdata.svg)
+![[Pypi](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/v/xdata.svg)
+![[Python](https://pypi.python.org/pypi/xdata/)](https://img.shields.io/pypi/pyversions/xdata.svg)
+
 A simple but useful library for validating data.
 Most of the situation is validating request data.
 
