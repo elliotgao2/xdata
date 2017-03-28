@@ -1,0 +1,69 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "XData\n\n\nA simple but useful library for validating data.\n\n\nFeatures\n\n\n\n\nEasy to use, only one step\n\n\nEasy to extend\n\n\nNo dependencies\n\n\n\n\nRequired\n\n\npython \n= 3.5\n\n\nInstallation\n\n\npip install xdata",
+            "title": "Home"
+        },
+        {
+            "location": "/#xdata",
+            "text": "A simple but useful library for validating data.",
+            "title": "XData"
+        },
+        {
+            "location": "/#features",
+            "text": "Easy to use, only one step  Easy to extend  No dependencies",
+            "title": "Features"
+        },
+        {
+            "location": "/#required",
+            "text": "python  = 3.5",
+            "title": "Required"
+        },
+        {
+            "location": "/#installation",
+            "text": "pip install xdata",
+            "title": "Installation"
+        },
+        {
+            "location": "/validate/",
+            "text": "Validate\n\n\nfrom xdata.schema import Schema\nfrom xdata.types import *\n\n\nclass UserSchema(Schema):\n    telephone = Str(length=11, required=True)\n    password = Str(min_length=8,max_length=16, required=True)\n\nrequest_data = {\n    'telephone':'18180050000',\n    'password':'idonotknow'\n}\n\nschema = UserSchema(request_data)\nif schema.valid:\n    print(schema.validated_data) # {'telephone': '18180050000', 'password': 'idonotknow'}",
+            "title": "Validate"
+        },
+        {
+            "location": "/validate/#validate",
+            "text": "from xdata.schema import Schema\nfrom xdata.types import *\n\n\nclass UserSchema(Schema):\n    telephone = Str(length=11, required=True)\n    password = Str(min_length=8,max_length=16, required=True)\n\nrequest_data = {\n    'telephone':'18180050000',\n    'password':'idonotknow'\n}\n\nschema = UserSchema(request_data)\nif schema.valid:\n    print(schema.validated_data) # {'telephone': '18180050000', 'password': 'idonotknow'}",
+            "title": "Validate"
+        },
+        {
+            "location": "/errors/",
+            "text": "Errors\n\n\nfrom xdata.schema import Schema\nfrom xdata.types import *\n\nclass UserSchema(Schema):\n    telephone = Str(length=11, required=True)\n    password = Str(min_length=8, max_length=16, required=True)\n\n\nrequest_data = {}\n\nschema = UserSchema(request_data)\nif not schema.valid:\n    print(schema.errors)  # {'telephone': 'telephone is required', 'password': 'password is required'}",
+            "title": "Errors"
+        },
+        {
+            "location": "/errors/#errors",
+            "text": "from xdata.schema import Schema\nfrom xdata.types import *\n\nclass UserSchema(Schema):\n    telephone = Str(length=11, required=True)\n    password = Str(min_length=8, max_length=16, required=True)\n\n\nrequest_data = {}\n\nschema = UserSchema(request_data)\nif not schema.valid:\n    print(schema.errors)  # {'telephone': 'telephone is required', 'password': 'password is required'}",
+            "title": "Errors"
+        },
+        {
+            "location": "/data_types/",
+            "text": "DataTypes\n\n\nfrom xdata.schema import Schema\nfrom xdata.types import *\n\nDataType(required=True,default='11',choices=[])\n\nStr(length=11, max_length=12,min_length=10,regex=\n)\nInt(max=10000,min=12)\nBool(max=10000,min=12)\nDecimal(left=5,right=2)\nDateTime(max_datetime='2001-01-01 00:00:00', min_datetime='2000-01-01 00:00:00')\nDate(max_date='2001-01-01', min_date='2000-01-01')\nTime(max_time='06:00:00', min_time='05:00:00')",
+            "title": "DataTypes"
+        },
+        {
+            "location": "/data_types/#datatypes",
+            "text": "from xdata.schema import Schema\nfrom xdata.types import *\n\nDataType(required=True,default='11',choices=[])\n\nStr(length=11, max_length=12,min_length=10,regex= )\nInt(max=10000,min=12)\nBool(max=10000,min=12)\nDecimal(left=5,right=2)\nDateTime(max_datetime='2001-01-01 00:00:00', min_datetime='2000-01-01 00:00:00')\nDate(max_date='2001-01-01', min_date='2000-01-01')\nTime(max_time='06:00:00', min_time='05:00:00')",
+            "title": "DataTypes"
+        },
+        {
+            "location": "/custom_data/",
+            "text": "TODO",
+            "title": "CustomData"
+        },
+        {
+            "location": "/custom_data/#todo",
+            "text": "",
+            "title": "TODO"
+        }
+    ]
+}
