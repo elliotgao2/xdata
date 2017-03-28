@@ -3,7 +3,7 @@
 
     
     <url>
-     <loc>None/</loc>
+     <loc>/</loc>
      <lastmod>2017-03-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -11,7 +11,7 @@
 
     
     <url>
-     <loc>None/validate/</loc>
+     <loc>/validate/</loc>
      <lastmod>2017-03-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -19,7 +19,7 @@
 
     
     <url>
-     <loc>None/errors/</loc>
+     <loc>/errors/</loc>
      <lastmod>2017-03-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -27,7 +27,7 @@
 
     
     <url>
-     <loc>None/data_types/</loc>
+     <loc>/data_types/</loc>
      <lastmod>2017-03-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -35,7 +35,7 @@
 
     
     <url>
-     <loc>None/custom_data/</loc>
+     <loc>/custom_data/</loc>
      <lastmod>2017-03-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
