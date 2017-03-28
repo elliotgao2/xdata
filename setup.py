@@ -2,14 +2,14 @@ from setuptools import setup
 
 setup(
     name='xdata',
-    version='0.0.2',
+    version='0.0.3',
     author='gaojiuli',
     author_email='gaojiuli@gmail.com',
     description="Simple data validation library",
     license="MIT",
     keywords="schema json validation",
     url="https://github.com/gaojiuli/xdata",
-    package=['xdata'],
+    packages=['xdata'],
     platforms='any',
     classifiers=[
         "Development Status :: 3 - Alpha",
