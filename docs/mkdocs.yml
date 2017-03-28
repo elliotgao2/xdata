@@ -1,0 +1,16 @@
+site_name: XData
+
+pages:
+    - Home: index.md
+    - Validate: validate.md
+    - Errors: errors.md
+    - DataTypes: data_types.md
+
+repo_name: 'GitHub'
+repo_url: https://github.com/gaojiuli/xdata/
+
+edit_uri: edit/master/docs/docs/
+
+site_author: gaojiuli
+
+site_description: A simple but useful library for validating data.
