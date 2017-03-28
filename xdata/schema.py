@@ -10,6 +10,7 @@ class SchemaMeta(type):
         for k, v in attrs.items():
             if isinstance(v, DataType):
                 checkers[k] = v
+                v.name = k
 
         for k in checkers:
             attrs.pop(k)
@@ -31,7 +32,7 @@ class Schema(metaclass=SchemaMeta):
     def validate(self):
 
         for k, v in self.checkers.items():
-            self.checkers[k].name = k
+
             if k in self.data:
                 self.checkers[k].value = self.data[k]
 
