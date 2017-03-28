@@ -5,6 +5,6 @@ python:
 sudo: false
 install:
     - pip install -r requirements.txt
-    - pip install xdata
+    - pip install ./
 
 script: pytest

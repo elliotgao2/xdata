@@ -3,12 +3,6 @@ from datetime import datetime
 
 
 class DataType:
-    errors = {
-        'required': 'This field is required',
-        'choices': '',
-        'fn': ''
-    }
-
     def __init__(self, *args, **kwargs):
         self.required = kwargs.get('required', False)
         self.default = kwargs.get('default', None)
