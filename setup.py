@@ -1,20 +1,18 @@
 from setuptools import setup
 
-import xdata
-
 setup(
-    name=xdata.__name__,
-    version=xdata.__version__,
-    author=xdata.__author__,
-    author_email=xdata.__email__,
+    name='xdata',
+    version='0.0.2',
+    author='gaojiuli',
+    author_email='gaojiuli@gmail.com',
     description="Simple data validation library",
     license="MIT",
     keywords="schema json validation",
     url="https://github.com/gaojiuli/xdata",
-    py_modules=['xdata'],
+    package=['xdata'],
     platforms='any',
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 2 - Alpha",
         "Topic :: Utilities",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",

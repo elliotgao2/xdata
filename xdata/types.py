@@ -1,11 +1,6 @@
 import re
 from datetime import datetime
 
-__name__ = 'xdata'
-__version__ = '0.0.1'
-__author__ = 'gaojiuli'
-__email__ = 'gaojiuli@gmail.com'
-
 
 class DataType:
     def __init__(self, *args, **kwargs):
@@ -183,66 +178,3 @@ class Time(DataType):
             return '{} should be before {}'.format(self.name, self.max_time)
         if self.value < self.min_time:
             return '{} should be after {}'.format(self.name, self.min_time)
-
-
-class CheckException(Exception):
-    """check exception"""
-
-
-class SchemaMeta(type):
-    def __new__(mcs, name, bases, attrs):
-        checkers = {}
-        for k, v in attrs.items():
-            if isinstance(v, DataType):
-                checkers[k] = v
-
-        for k in checkers:
-            attrs.pop(k)
-
-        attrs['checkers'] = checkers
-        return super().__new__(mcs, name, bases, attrs)
-
-
-class Schema(metaclass=SchemaMeta):
-    def __init__(self, data):
-        self.data = data
-        self._validated_data = {}
-        self._errors = {}
-        self._checked = False
-        self.valid = True
-        self.validate()
-
-    def validate(self):
-        for k, v in self.checkers.items():
-            self.checkers[k].name = k
-            if k in self.data:
-                self.checkers[k].value = self.data[k]
-
-        for k, checker in self.checkers.items():
-            result = checker.check()
-            if result is None:
-                self._validated_data[k] = self.checkers[k].value
-            else:
-                self._errors[k] = result
-        if len(self._errors) != 0:
-            self.valid = False
-        self._checked = True
-        return self
-
-    @property
-    def errors(self):
-        if not self._checked:
-            raise CheckException('Data should be validated before visit errors')
-
-        if self.valid:
-            raise CheckException('Data is valid')
-
-        return self._errors
-
-    @property
-    def validated_data(self):
-        if not self._checked:
-            raise CheckException('Data should be validate before visit validated_data')
-        if not self.valid:
-            raise CheckException('Data is not valid')
-        return self._validated_data

@@ -1,4 +1,5 @@
-from xdata import *
+from xdata.schema import Schema
+from xdata.types import *
 
 
 def test_required():

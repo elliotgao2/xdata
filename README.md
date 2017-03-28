@@ -26,7 +26,9 @@ A simple but useful library for validating data.
 ### ValidatedData
 
 ```python
-from xdata import *
+from xdata.schema import Schema
+from xdata.types import *
+
 
 class UserSchema(Schema):
     telephone = Str(length=11, required=True)
@@ -46,7 +48,8 @@ if schema.valid:
 ### Errors
 
 ```python
-from xdata import *
+from xdata.schema import Schema
+from xdata.types import *
 
 class UserSchema(Schema):
     telephone = Str(length=11, required=True)
@@ -63,7 +66,8 @@ if not schema.valid:
 ### DataTypes
 
 ```python
-from xdata import *
+from xdata.schema import Schema
+from xdata.types import *
 
 DataType(required=True,default='11',choices=[])
 
