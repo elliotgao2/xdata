@@ -4,6 +4,7 @@ python:
   - '3.6'
 sudo: false
 install:
-    - pip install ./
     - pip install -r requirements.txt
+    - pip install xdata
+
 script: pytest

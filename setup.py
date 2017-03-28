@@ -12,7 +12,7 @@ setup(
     package=['xdata'],
     platforms='any',
     classifiers=[
-        "Development Status :: 2 - Alpha",
+        "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
