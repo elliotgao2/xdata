@@ -7,6 +7,7 @@ class UserSchema(Schema):
 
 
 schema = UserSchema({'username': '1234567890'})
+print(schema.checkers)
 if schema.valid:
     print(schema.validated_data)
 else:

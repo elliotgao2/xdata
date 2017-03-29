@@ -1,16 +1,24 @@
+"""
+Custom Schema class should be a subclass of Schema
+"""
+
 from xdata.exceptions import CheckError
 from xdata.types import DataType
 
 
 class SchemaMeta(type):
+    """
+    SchemaMeta is for init the checkers of a custom Schema
+    """
+
     def __new__(mcs, name, bases, attrs):
 
         checkers = {}
 
-        for k, v in attrs.items():
-            if isinstance(v, DataType):
-                checkers[k] = v
-                v.name = k
+        for k, checker in attrs.items():
+            if isinstance(checker, DataType):
+                checkers[k] = checker
+                checker.name = k
 
         for k in checkers:
             attrs.pop(k)
@@ -21,6 +29,10 @@ class SchemaMeta(type):
 
 
 class Schema(metaclass=SchemaMeta):
+    """
+    Schema is the base class of custom Schema
+    """
+
     def __init__(self, data):
         self.data = data
         self._validated_data = {}
@@ -28,18 +40,21 @@ class Schema(metaclass=SchemaMeta):
         self._checked = False
         self.valid = True
         self.validate()
+        self.checkers = self.checkers
 
     def validate(self):
-
-        for k, v in self.checkers.items():
+        """
+        Validate all data.
+        """
+        for k, checker in self.checkers.items():
 
             if k in self.data:
-                self.checkers[k].value = self.data[k]
+                checker.value = self.data[k]
 
         for k, checker in self.checkers.items():
-            result = checker.check()
-            if result is None:
-                self._validated_data[k] = self.checkers[k].value
+            result = checker.valid()
+            if result is True:
+                self._validated_data[k] = checker.value
             else:
                 self._errors[k] = result
 
@@ -52,7 +67,9 @@ class Schema(metaclass=SchemaMeta):
 
     @property
     def errors(self):
-
+        """
+        Return errors as a dict
+        """
         if not self._checked:
             raise CheckError('Data should be validated before visit errors')
 
@@ -63,7 +80,9 @@ class Schema(metaclass=SchemaMeta):
 
     @property
     def validated_data(self):
-
+        """
+        Return validated_data as a dict
+        """
         if not self._checked:
             raise CheckError('Data should be validate before visit validated_data')
 

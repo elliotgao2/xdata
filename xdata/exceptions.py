@@ -1,3 +1,8 @@
+"""
+Exceptions of xdata is defined here
+"""
+
+
 class XDataException(Exception):
     """Exception"""
 

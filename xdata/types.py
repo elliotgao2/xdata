@@ -1,17 +1,27 @@
+"""
+All data types
+"""
 import re
 from datetime import datetime
 
 
 class DataType:
-    def __init__(self, *args, **kwargs):
+    """
+    All data types is a subclass of DataType
+    """
+
+    def __init__(self, **kwargs):
         self.required = kwargs.get('required', False)
         self.default = kwargs.get('default', None)
         self.choices = kwargs.get('choices', None)
-        self.fn = kwargs.get('fn', None)
+        self.function = kwargs.get('fn', None)
         self.value = None
         self.name = None
 
     def check(self):
+        """
+        Check value
+        """
         if self.default is not None and not self.required:
             self.value = self.default
 
@@ -21,13 +31,26 @@ class DataType:
         if self.choices is not None and self.value not in self.choices:
             return '{} should be in [{}]'.format(self.name, ','.join(self.choices))
 
-        if self.fn is not None and self.value is not None and not self.fn(self.value):
-            return '{} should be satisfied function {}'.format(self.name, self.fn)
+        if self.function is not None and self.value is not None and not self.function(self.value):
+            return '{} should be satisfied function {}'.format(self.name, self.function)
+
+    def valid(self):
+        """
+        If value is valid return True
+        """
+        result = self.check()
+        if result is None:
+            return True
+        return result
 
 
 class Str(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    String
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.max_length = kwargs.get('max_length', None)
         self.min_length = kwargs.get('min_length', None)
         self.length = kwargs.get('length', None)
@@ -55,8 +78,12 @@ class Str(DataType):
 
 
 class Int(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    Int
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.max = kwargs.get('max', None)
         self.min = kwargs.get('min', None)
 
@@ -76,8 +103,12 @@ class Int(DataType):
 
 
 class Bool(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    Bool
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def check(self):
         super().check()
@@ -86,8 +117,12 @@ class Bool(DataType):
 
 
 class Decimal(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    Decimal
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.left = kwargs.get('left', 8)
         self.right = kwargs.get('right', 2)
 
@@ -101,14 +136,20 @@ class Decimal(DataType):
         point_left, point_right = str(self.value).split('.')
 
         if len(point_left) > self.left:
-            return 'length of the right of the decimal point should be less than {}'.format(self.left)
+            return 'length of the right of the decimal ' \
+                   'point should be less than {}'.format(self.left)
         if not len(point_right) == self.right:
-            return 'length of the left of the decimal point should be equal to {}'.format(self.right)
+            return 'length of the left of the decimal ' \
+                   'point should be equal to {}'.format(self.right)
 
 
 class DateTime(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    DateTime
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.max_datetime = kwargs.get('max_datetime', None)
         self.min_datetime = kwargs.get('min_datetime', None)
 
@@ -132,8 +173,12 @@ class DateTime(DataType):
 
 
 class Date(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    Date
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.max_date = kwargs.get('max_date', None)
         self.min_date = kwargs.get('min_date', None)
 
@@ -157,8 +202,12 @@ class Date(DataType):
 
 
 class Time(DataType):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    """
+    Time
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.max_time = kwargs.get('max_time', None)
         self.min_time = kwargs.get('min_time', None)
 
